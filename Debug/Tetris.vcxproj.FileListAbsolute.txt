@@ -1,0 +1,2 @@
+C:\Users\emmet\source\repos\Tetris\Debug\Tetris.exe
+C:\Users\emmet\source\repos\Tetris\Debug\Tetris.pdb
