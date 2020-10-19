@@ -3,6 +3,8 @@
 #include<chrono> //Allows for time to be expressed
 #include<thread> // Allows multiple functions to execute concurrently
 #include<vector>
+#include <stdio.h>
+#include<string>
 
 using namespace std;
 
@@ -123,6 +125,8 @@ int main() {
 	int nSpeed = 20; //Current Speed
 	int nSpeedCounter = 0; // Counts Game Ticks
 	bool bForceDown = false;
+	int nPieceCount = 0;
+	int nScore = 0;
 
 	vector<int> vLines;
 
@@ -143,7 +147,7 @@ int main() {
 		// GAME LOGIC========================================
 
 
-		//OLD CODE
+		//OLD LOGIC
 		//if (bKey[1]) {
 		//	if (DoesPieceFit(nCurrentPiece, nCurrentRotation, nCurrentX - 1, nCurrentY)) {
 		//		nCurrentX = nCurrentX - 1;
@@ -177,7 +181,7 @@ int main() {
 				nCurrentY++;
 			}
 			else {
-				// Lock current piece in the field
+				//Lock current piece in the field
 				for (int px = 0; px < 4; px++) {
 					for (int py = 0; py < 4; py++) {
 						//If there is an empty space
@@ -187,6 +191,14 @@ int main() {
 						}
 					}
 				}
+
+				nPieceCount++;
+				if (nPieceCount % 10 == 0) {
+					if (nSpeed >= 10) {
+						nSpeed--;
+					}
+				}
+			
 
 				//Check to see if we have any lines
 				for (int py = 0; py < 4; py++) {
@@ -202,10 +214,17 @@ int main() {
 							for (int px = 1; px < nFieldWidth - 1; px++) {
 								pField[(nCurrentY + py) * nFieldWidth + px] = 8;
 
-								vLines.push_back(nCurrentY + py);
+								//Remeber to ALWAYS CHECK FOR SCOPE!!!! 
+								/*vLines.push_back(nCurrentY + py);*/
 							}
+							vLines.push_back(nCurrentY + py);
 						}
 					}
+				}
+
+				nScore += 25;
+				if (!vLines.empty()) {
+					nScore += (1 << vLines.size()) * 100;
 				}
 
 				//Choose next piece
@@ -244,28 +263,39 @@ int main() {
 			}
 		}
 
+		//Draw Score
+		swprintf_s(&screen[2 * nScreenWidth + nFieldWidth + 6], 16, L"SCORE: %8d", nScore);
+
 		if (!vLines.empty()) {
 			//Display Frame 
 			WriteConsoleOutputCharacter(hConsole, screen, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
 			this_thread::sleep_for(400ms); // Delay 
 
-			for (auto &v : vLines)
-				for (int px = 1; px < nFieldWidth - 1; px++) 
-				{
-					for (int py = v; py > 0; py--)
+			for (auto &v : vLines){
+				for (int px = 1; px < nFieldWidth - 1; px++) {
+					for (int py = v; py > 0; py--) {
 						pField[py * nFieldWidth + px] = pField[(py - 1) * nFieldWidth + px];
+					}
 					pField[px] = 0;
-
 				}
+			}
 
 					vLines.clear();
-
+				
 		}
 
 
 			//Display Frame
 			WriteConsoleOutputCharacter(hConsole, screen, nScreenWidth * nScreenHeight, { 0,0 }, &dwBytesWritten);
 		}
+
+		//Game Over
+		CloseHandle(hConsole);
+		cout << "Game Over!! Score:" << nScore << endl;
+		
+		string Enter;
+		cout << "Press Enter to Exit" << endl;
+		getline(cin, Enter);
 
 
 

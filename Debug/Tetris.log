@@ -1,4 +1,4 @@
 ﻿  main.cpp
-C:\Users\emmet\source\repos\Tetris\main.cpp(140,57): warning C4129: 'Z': unrecognized character escape sequence
-C:\Users\emmet\source\repos\Tetris\main.cpp(26): warning C4715: 'Rotate': not all control paths return a value
+C:\Users\emmet\source\repos\Tetris\main.cpp(144,57): warning C4129: 'Z': unrecognized character escape sequence
+C:\Users\emmet\source\repos\Tetris\main.cpp(28): warning C4715: 'Rotate': not all control paths return a value
   Tetris.vcxproj -> C:\Users\emmet\source\repos\Tetris\Debug\Tetris.exe
