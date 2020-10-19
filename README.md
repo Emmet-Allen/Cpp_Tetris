@@ -6,4 +6,4 @@ along with adding my own pizzaz such as including an exit prompt (instead of usi
 and statements within their scope.
 
 The next thing I want to work on in this project is having the program create a sound when a line is created 
-to enhance user experience, But for now, I am happy with my results. Its quite fun.
+to enhance user experience, but for now, I am happy with my results. Its quite fun.
